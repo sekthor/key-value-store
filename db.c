@@ -2,10 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 
+char *dir = "/var/lib/db/";
+
 char *get(const char *key)
 {
-
-    FILE *fp = fopen(key, "r");
+    char path[strlen(dir) + strlen(key)];
+    strcpy(path, dir);
+    strcat(path, key);
+    FILE *fp = fopen(path, "r");
 
     if (fp == NULL) {
         fprintf(stderr, "Error: No value with key: %s\n", key);
@@ -22,8 +26,10 @@ char *get(const char *key)
 
 void put(const char *key, const char *value)
 {
-
-    FILE *f = fopen(key, "w");
+    char path[strlen(dir) + strlen(key)];
+    strcpy(path, dir);
+    strcat(path, key);
+    FILE *f = fopen(path, "w");
 
     if (f == NULL) {
         fprintf(stderr, "Error writing value!\n");
@@ -37,7 +43,10 @@ void put(const char *key, const char *value)
 
 void delete(const char *key)
 {
-    int del = remove(key);
+    char path[strlen(dir) + strlen(key)];
+    strcpy(path, dir);
+    strcat(path, key);
+    int del = remove(path);
     
     if (!del)
       printf("Successfully deleted entry: %s\n", key);
